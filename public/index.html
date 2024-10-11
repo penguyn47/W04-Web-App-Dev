@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="./output.css">
+</head>
+
+<body class="bg-gray-100 flex justify-center items-center h-screen bg-gradient-to-br from-purple-600 to-blue-900">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-96">
+        <h1 class="text-2xl font-bold mb-6 text-center">Simple Calculator</h1>
+        <div class="mb-4">
+            <label for="number1" class="block text-sm font-medium text-gray-700">First Number</label>
+            <input type="number" id="number1"
+                class="mt-1 p-2 w-full border-gray-500 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+
+        <div class="mb-4">
+            <label for="number2" class="block text-sm font-medium text-gray-700">Second Number</label>
+            <input type="number" id="number2"
+                class="mt-1 p-2 w-full border-gray-500 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+        </div>
+
+        <div class="mb-4">
+            <span class="text-sm font-medium text-gray-700">Operation</span>
+            <div class="mt-2 flex items-center space-x-4 text-sm justify-between">
+                <label class="inline-flex items-center">
+                    <input type="radio" name="operation" value="add" class="form-radio">
+                    <span class="ml-2">➕</span>
+                </label>
+                <label class="inline-flex items-center">
+                    <input type="radio" name="operation" value="subtract" class="form-radio">
+                    <span class="ml-2">➖</span>
+                </label>
+                <label class="inline-flex items-center">
+                    <input type="radio" name="operation" value="multiply" class="form-radio">
+                    <span class="ml-2">✖️</span>
+                </label>
+                <label class="inline-flex items-center">
+                    <input type="radio" name="operation" value="divide" class="form-radio">
+                    <span class="ml-2">➗</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <button id="calculate"
+                class="w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">Calculate</button>
+        </div>
+
+        <div id="result_label" class="text-left text-lg font-semibold text-gray-800">Result:</div>
+        <input id="result" type="number"
+            class="mt-1 p-2 w-full border-gray-500 border rounded-lg focus:outline-none focus:ring-2" readonly>
+        <div id="notification_label" class="text-left text-lg font-semibold text-gray-800">Notification:</div>
+        <input id="notification" type="text"
+            class="mt-1 p-2 w-full border-gray-500 border rounded-lg focus:outline-none focus:ring-2 text-red-500 text-xl"
+            readonly>
+    </div>
+
+    <script>
+        document.getElementById('calculate').addEventListener('click', function () {
+            const num1 = parseFloat(document.getElementById('number1').value);
+            const num2 = parseFloat(document.getElementById('number2').value);
+            const operation = document.querySelector('input[name="operation"]:checked');
+
+            let result;
+            let isValid = false;
+
+            if (isNaN(num1) && isNaN(num2)) {
+                result = "Please enter numbers"
+            }
+            else if (isNaN(num1)) {
+                result = "The first number is not valid";
+            } else if (isNaN(num2)) {
+                result = "The second number is not valid";
+            } else if (operation == null) {
+                result = "No operation selected";
+            }
+            else {
+                isValid = true;
+                switch (operation.value) {
+                    case 'add':
+                        result = num1 + num2;
+                        break;
+                    case 'subtract':
+                        result = num1 - num2;
+                        break;
+                    case 'multiply':
+                        result = num1 * num2;
+                        break;
+                    case 'divide':
+                        if (num2 == 0) {
+                            isValid = false;
+                            result = "Cannot divide by zero";
+                        } else result = num1 / num2;
+
+                        break;
+                }
+
+            }
+
+            if (isValid) {
+                document.getElementById('result').value = result;
+                document.getElementById('notification').value = "";
+            }
+            else {
+                document.getElementById('notification').value = result;
+                document.getElementById('result').value = null;
+            }
+        });
+    </script>
+</body>
+
+</html>
